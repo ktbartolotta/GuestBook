@@ -12,3 +12,18 @@ MAIN_PAGE_HTML = """\
   </body>
 </html>
 """
+
+class MainPage(webapp2.RequestHandler):
+	def get(self):
+		self.response.write(MAIN_PAGE_HTML)
+		
+class Guestbook(webapp2.RequestHandler):
+	def post(self):
+		self.response.write('<!doctype html><html><body>You wrote:<pre>')
+		self.response.write(cgi.escape(self.request.get('content')))
+		self.response.write('</pre></body></html>')
+		
+application = webapp2.WSGIApplication([
+	('/', MainPage),
+	('/sign', Guestbook)
+], debug=true)
